@@ -1,8 +1,8 @@
 const config = {};
 
-config.host = process.env.HOST || "https://guineapig-db.documents.azure.com:443/";
+config.host = process.env.HOST || "/";
 config.authKey =
-  process.env.AUTH_KEY || "WEGKTtZ6B75RIqjZksJRj9zZkkw5wonyR4e7hi5LBZB8NlclE7HdL5RaySbrWOSRB3JMvOEMM3UVACDbJlWyIw==";
+  process.env.AUTH_KEY || "";
 config.databaseId = "guineapig-db";
 config.containerId = "Items";
 
