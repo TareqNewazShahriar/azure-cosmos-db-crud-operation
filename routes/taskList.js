@@ -10,7 +10,10 @@ const TaskDao = require("../models/TaskDao");
    }
    
    async showTasks(req, res) {
-     const querySpec = { query: "SELECT * FROM root r WHERE r.completed=@completed", parameters: [{ name: "@completed", value: false }] };
+    const querySpec = { 
+      query: "SELECT * FROM root r", 
+      parameters: [{ name: "@completed", value: false }]
+    };
 
      const items = await this.taskDao.find(querySpec);
      res.render("index", {
