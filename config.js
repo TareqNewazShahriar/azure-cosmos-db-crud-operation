@@ -1,8 +1,12 @@
-const config = {};
+const fs = require('fs');
 
-config.host = process.env.HOST || "/";
+const secretsText = fs.readFileSync('secrets.json', { encoding: 'utf8' });
+const secretJson = JSON.parse(secretsText);
+
+const config = {};
+config.host = process.env.HOST || secretJson.COSMOS_DB_ENDPOINT;
 config.authKey =
-  process.env.AUTH_KEY || "";
+  process.env.AUTH_KEY || secretJson.COSMOS_DB_AUTH_KEY;
 config.databaseId = "guineapig-db";
 config.containerId = "Items";
 
