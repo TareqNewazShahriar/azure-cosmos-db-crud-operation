@@ -48,8 +48,18 @@ class TaskDao {
     debug('Adding an item to the database')
     item.date = Date.now()
     item.completed = false
-    const { resource: doc } = await this.container.items.create(item)
-    return doc
+    
+    return new Promise((resolve, reject) => {
+      this.container.items.create(item, {preTriggerInclude: ['addToDoItemTimestamp']})
+        .then(r => {
+          console.log('Created.', r);
+          resolve(r.resource);
+        })
+        .catch(err => { 
+          console.log('Error on create.', err);
+          reject(err);
+        });
+    });
   }
 
   async updateItem(itemId) {
@@ -57,16 +67,25 @@ class TaskDao {
     const doc = await this.getItem(itemId)
     doc.completed = true
 
-    const { resource: replaced } = await this.container
-      .item(itemId, partitionKey)
-      .replace(doc)
-    return replaced
+    return new Promise((resolve, reject) => {
+      this.container
+        .item(itemId, partitionKey)
+        .replace(doc)
+        .then(r => {
+          console.log('Updated.', r);
+          resolve(r.resource);
+        })
+        .catch(err => { 
+          console.log('Error on update.', err);
+          reject(err);
+        });
+    });
   }
 
   async getItem(itemId) {
     debug('Getting an item from the database')
     const { resource } = await this.container.item(itemId, partitionKey).read()
-    return resource
+    return resource;
   }
 }
 
