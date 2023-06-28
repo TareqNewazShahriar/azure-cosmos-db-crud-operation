@@ -1,4 +1,5 @@
 # azure-cosmos-db-crud-operation
+[sample app]
 
  Create, update, delete, queries and triggers on Azure Cosmos DB with Javascript.
 
