@@ -1,46 +1,41 @@
-const TaskDao = require("../models/TaskDao");
+const TaskDao = require("../services/databaseService");
 
- class TaskList {
+class TaskList {
    /**
     * Handles the various APIs for displaying and managing tasks
     * @param {TaskDao} taskDao
     */
    constructor(taskDao) {
-     this.taskDao = taskDao;
+      this.taskDao = taskDao;
    }
-   
-   async showTasks(req, res) {
-    const querySpec = { 
-      query: "SELECT * FROM root r", 
-      parameters: [{ name: "@completed", value: false }]
-    };
 
-     const items = await this.taskDao.find(querySpec);
-     res.render("index", {
-       title: "My ToDo List ",
-       tasks: items
-     });
+   async showTasks(req, res) {
+      const items = await this.taskDao.find('root', { name: "@completed", value: false });
+      res.render("index", {
+         title: "My ToDo List",
+         tasks: items
+      });
    }
 
    async addTask(req, res) {
-     const item = req.body;
+      const item = req.body;
 
-     await this.taskDao.addItem(item);
-     res.redirect("/");
+      await this.taskDao.addItem(item);
+      res.redirect("/");
    }
 
    async completeTask(req, res) {
-     const completedTasks = Object.keys(req.body);
-     const tasks = [];
+      const completedTasks = Object.keys(req.body);
+      const tasks = [];
 
-     completedTasks.forEach(task => {
-       tasks.push(this.taskDao.updateItem(task));
-     });
+      completedTasks.forEach(task => {
+         tasks.push(this.taskDao.updateItem(task));
+      });
 
-     await Promise.all(tasks);
+      await Promise.all(tasks);
 
-     res.redirect("/");
+      res.redirect("/");
    }
- }
+}
 
- module.exports = TaskList;
+module.exports = TaskList;
