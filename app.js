@@ -1,7 +1,7 @@
 const CosmosClient = require('@azure/cosmos').CosmosClient
  const config = require('./config')
- const TaskList = require('./routes/tasklist')
- const TaskDao = require('./models/taskDao')
+ const TaskList = require('./routes/taskList')
+ const TaskDao = require('./services/databaseService')
 
  const express = require('express')
  const path = require('path')
