@@ -4,7 +4,7 @@ const CosmosClient = require('@azure/cosmos').CosmosClient
 // For simplicity we'll set a constant partition key
 const partitionKey = undefined
 
-class TaskDao {
+class DatabaseService {
    /**
     * Manages reading, adding, and updating Tasks in Azure Cosmos DB
     * @param {CosmosClient} cosmosClient
@@ -94,4 +94,4 @@ class TaskDao {
    }
 }
 
-module.exports = TaskDao
+module.exports = DatabaseService

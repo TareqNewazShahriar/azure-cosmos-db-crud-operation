@@ -1,16 +1,16 @@
-const TaskDao = require("../services/databaseService");
+const DatabaseService = require("../services/databaseService");
 
 class TaskList {
    /**
     * Handles the various APIs for displaying and managing tasks
-    * @param {TaskDao} taskDao
+    * @param {TaskDao} DatabaseService
     */
-   constructor(taskDao) {
-      this.taskDao = taskDao;
+   constructor(DatabaseService) {
+      this.DatabaseService = DatabaseService;
    }
 
    async showTasks(req, res) {
-      const items = await this.taskDao.find('root', { name: "@completed", value: false });
+      const items = await this.DatabaseService.find('root', { name: "@completed", value: false });
       res.render("index", {
          title: "My ToDo List",
          tasks: items
@@ -20,7 +20,7 @@ class TaskList {
    async addTask(req, res) {
       const item = req.body;
 
-      await this.taskDao.addItem(item);
+      await this.DatabaseService.addItem(item);
       res.redirect("/");
    }
 
@@ -29,7 +29,7 @@ class TaskList {
       const tasks = [];
 
       completedTasks.forEach(task => {
-         tasks.push(this.taskDao.updateItem(task));
+         tasks.push(this.DatabaseService.updateItem(task));
       });
 
       await Promise.all(tasks);
